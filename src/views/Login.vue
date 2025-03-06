@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import router from "@/router/index.js";
 
 defineProps({
@@ -20,8 +20,6 @@ defineProps({
 })
 
 const token = ref("");
-
-const count = ref(0)
 
 const handleLogin = () => {
     if (import.meta.env.VITE_APP_LOGIN_TOKEN == token.value) {
@@ -31,6 +29,13 @@ const handleLogin = () => {
         alert('Invalid token.');
     }
 }
+
+onMounted(() => {
+    const loginToken = window.localStorage.getItem('authToken');
+    if (loginToken && loginToken === import.meta.env.VITE_APP_LOGIN_TOKEN) {
+        router.push('/Home');
+    }
+})
 </script>
 
 <style scoped>

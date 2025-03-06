@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const isLoggedIn = () => {
-    return localStorage.getItem('authToken') !== null; // Example: Check for a token in localStorage
+    const authToken = localStorage.getItem('authToken');
+    return authToken !== null && authToken === import.meta.env.VITE_APP_LOGIN_TOKEN; // Example: Check for a token in localStorage
 };
 
 // Define your routes
 const routes = [
     {
         path: '/',
-        name: 'Login',
-        component: () => import('@/views/Login.vue')
+        redirect: '/login', // Redirect from '/' to '/login'
     },
     {
         path: '/login',

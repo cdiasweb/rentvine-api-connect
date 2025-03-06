@@ -3,6 +3,7 @@
         <div>
             <TextInput v-model="searchTermPayees" label="Search Payees (contactId -> payeeContactID)" @keyup="searchPayees"/>
             <div class="card" v-for="result in payees">
+                <div>Contact Type: <strong>{{getRightLabelBasedOnContactTypeId(result.contact.contactTypeID)}}</strong></div>
                 <div v-for="field in Object.entries(result.contact)">
                     {{field[0]}}: {{field[1]}}
                 </div>
@@ -71,6 +72,27 @@ const searchPayees = () => {
         const result = await axiosInstance.get(`/manager/contacts/search?search=${searchTermPayees.value}`);
         payees.value = result.data;
     }, 1000);
+}
+
+const getRightLabelBasedOnContactTypeId = (contactTypeId) => {
+    if (contactTypeId == 1) {
+        return 'Owner'
+    }
+    if (contactTypeId == 2) {
+        return 'Tenant'
+    }
+    if (contactTypeId == 3) {
+        return 'Vendor'
+    }
+    if (contactTypeId == 4) {
+        return 'Manager'
+    }
+    if (contactTypeId == 5) {
+        return 'Association'
+    }
+    if (contactTypeId == 6) {
+        return 'Applicant'
+    }
 }
 
 </script>

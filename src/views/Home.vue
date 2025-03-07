@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container m-0">
         <div>
             <TextInput v-model="searchTermPayees" label="Search Payees (contactId -> payeeContactID)" @keyup="searchPayees"/>
             <div class="card" v-for="result in payees">
@@ -27,6 +27,24 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <TextInput v-model="searchTermLeases" label="Search Leases" @keyup="searchLeases"/>
+            <div class="card" v-for="result in leases">
+                <strong>Lease</strong>
+                <div v-for="field in Object.entries(result.lease)">
+                    {{field[0]}}: {{field[1]}}
+                </div>
+                <strong>Property</strong>
+                <div v-for="field in Object.entries(result.property)">
+                    {{field[0]}}: {{field[1]}}
+                </div>
+                <strong>Unit</strong>
+                <div v-for="field in Object.entries(result.unit)">
+                    {{field[0]}}: {{field[1]}}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -50,6 +68,9 @@ const waitToSearch = ref();
 const searchTermPayees = ref(null);
 const payees = ref([]);
 
+const searchTermLeases = ref(null);
+const leases = ref([]);
+
 const searchLedgers = async () => {
     clearTimeout(waitToSearch.value);
     waitToSearch.value = setTimeout(async () => {
@@ -71,6 +92,13 @@ const searchPayees = () => {
     waitToSearch.value = setTimeout(async () => {
         const result = await axiosInstance.get(`/manager/contacts/search?search=${searchTermPayees.value}`);
         payees.value = result.data;
+    }, 1000);
+}
+const searchLeases = () => {
+    clearTimeout(waitToSearch.value);
+    waitToSearch.value = setTimeout(async () => {
+        const result = await axiosInstance.get(`manager/leases?search=${searchTermLeases.value}&includes=property%2Cunit`);
+        leases.value = result.data;
     }, 1000);
 }
 

@@ -16,10 +16,10 @@ export default defineConfig({
   server: {
     historyApiFallback: true,
     proxy: {
-      '/api': {
+      '/rentvine': {
         target: 'https://realtytrustservicesllc.rentvine.com/api',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/rentvine/, ''),
       },
     },
   },

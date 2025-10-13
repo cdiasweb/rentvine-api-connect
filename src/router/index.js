@@ -9,7 +9,7 @@ const isLoggedIn = () => {
 const routes = [
     {
         path: '/',
-        redirect: '/login', // Redirect from '/' to '/login'
+        redirect: '/login'
     },
     {
         path: '/login',
@@ -34,9 +34,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !isLoggedIn()) {
         // If the route requires authentication and the user is not logged in
-        next('/login'); // Redirect to the login page
+        next('/login');
     } else {
-        next(); // Allow access
+        next();
     }
 });
 
